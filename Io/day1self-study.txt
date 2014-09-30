@@ -1,0 +1,56 @@
+Day 1 Self-Study
+When you’re looking for Io background, searching for answers is going
+to be a little tougher because Io has so many different meanings. I
+recommend Googling for Io language.
+Find:
+• Some Io example problems
+    https://gist.github.com/jezen/7972975
+    Fibonacci at n (see fib.io)
+• An Io community that will answer questions
+    #Io on freenode IRC
+• A style guide with Io idioms
+    http://en.wikibooks.org/wiki/Io_Programming/Io_Style_Guide
+Answer:
+• Evaluate 1 + 1 and then 1 + "one". Is Io strongly typed or weakly
+typed? Support your answer with code.
+    1 + 1 - 2 and 1 + "one" throws an exception because Number and Sequence
+    are incompatible. However, you can append them to a Sequence using ..
+    operator.
+    1 + 1
+    ==> 2
+    1 + "one"
+    Exception:
+    1 .. "one"
+    ==> 1one
+• Is 0 true or false? What about the empty string? Is nil true or false?
+Support your answer with code.
+    0 is 0, true is true, false is false, the empty string is the empty
+    string and nil is nil. None of them are equal to each other, they are
+    all separate objects that can be cloned. They are also all singletons, as
+    well as all string literals are singletons.
+• How can you tell what slots a prototype supports?
+    {Object} slotNames
+• What is the difference between = (equals), := (colon equals), and ::=
+(colon colon equals)? When would you use each one?
+    All three are assignement operators
+    equals changes the value of an existing object
+    colon equals creates or changes the value of an object
+    colon colon equals creates orchanges the value of an object
+    and also creates a setter for that value
+    operator	action
+    ::=         Creates slot, creates setter, assigns value
+    :=          Creates slot, assigns value
+    =           Assigns value to slot if it exists, otherwise raises exception
+    You would use = to change a value that already exists. You would use := to create
+    a new object and assign its value. You would use ::= to create a new slot and
+    its setter when designing a class.
+
+Do:
+• Run an Io program from a file.
+    io fib.io
+• Execute the code in a slot given its name.
+    see fib.io
+    also:
+    Object slotNames
+    ==> list(...,asBoolean,...)
+    Object asBoolean
