@@ -51,9 +51,11 @@ arr myAverage println
 // 5. Write a prototype for a two-dimensional list. The dim(x, y) method
 // should allocate a list of y lists that are x elements long. set(x,y,
 // value) should set a value, and get(x, y) should return that value.
-2DList := List clone;
-2DList lists := List clone; // list of lists
-2DList dim := method( x, y,
+TDList := List clone;
+TDList lists := list(); // list of lists
+TDList dim := method( x, y,
+    if( self proto type == "List", return TDList clone dim( x, y ) )
+
     for(i, 0, y-1,
         newList := List clone;
         for(j, 0, x-1,
@@ -61,30 +63,130 @@ arr myAverage println
         );
         self lists append(newList);
     );
+    
+    return self;
 );
 
-2DList set := method( x, y, value,
+TDList set := method( x, y, value,
     self lists at(x) atPut( y, value );
 );
 
-2DList get := method( x, y,
+TDList get := method( x, y,
     return self lists at(x) at(y);
 );
 
-// Test
-list_o_lists := 2DList clone;
-list_o_lists dim(5,5);
-list_o_lists set(3,4,"HELLO");
-list_o_lists get(3,4) println;
-list_o_lists get(4,4) println;
+TDList show := method(
+    len_lists := self lists size;
+    for(i, 0, len_lists-1,
+        len_list := self lists at(i) size;
+        for( j, 0, len_list-1,
+            self lists at(i) at(j) print;
+            " " print;
+        )
+        "" println;
+    )
+)
 
+// Test
+//list_o_lists := TDList clone;
+//list_o_lists dim(2,5);
+//list_o_lists set(4,1,"HELLO");
+//list_o_lists show;
 
 // 6. Bonus: Write a transpose method so that (new_matrix get(y, x)) ==
 // matrix get(x, y) on the original list.
+// TODO - Revisit this
+TDList transpose := method(
+    ret := TDList clone dim;
+    // previous column size is self lists size, becomes new row size
+    // previous row size is length of the first element of self lists, becomes new column size
+    new_row_len := self lists size;
+    new_column_len := self lists at(0) size;
+    for(i, 0, new_column_len-1,
+        new_list := List clone;
+        for(j, 0, new_row_len-1,
+            new_list atInsert(j, self lists at(i) at(j) );
+        )
+        ret lists atInsert(i, new_list);
+    )
+    return ret;
+)
 
 // 7. Write the matrix to a file, and read a matrix from a file.
+TDList write := method( filename,
+    f := File with(filename);
+    f remove;
+    f openForUpdating;
+    len_lists := self lists size;
+    for(i, 0, len_lists-1,
+        len_list := self lists at(i) size;
+        for( j, 0, len_list-1,
+            f write(self lists at(i) at(j));
+            f write(" ");
+        )
+        f write("\n");
+    )
+)
+
+TDList read := method( filename,
+    output := "";
+    f := File with(filename);
+    f openForReading;
+    lines := f readLines;
+    width := lines size;
+    height := lines at(0) slicesBetween( "", " ") size;
+    self dim(width, height);
+    current_line := 0;
+    lines foreach(line,
+        line_list := line slicesBetween( "", " ");
+        current_word := 0;
+        line_list foreach( word,
+            self set(current_line,current_word,word);
+            current_word = current_word + 1;
+        );
+        current_line = current_line + 1;
+    );
+)
+
+// myList := TDList clone
+// myList dim(2,2)
+// myList set(0,0,"Hello")
+// myList set(1,0,"Hello")
+// myList set(0,1,"Hello")
+// myList set(1,1,"Hello")
+// myList show
+// myList write("file.txt")
+// myList read("file.txt")
+// myList show
 
 // 8. Write a program that gives you ten tries to guess a random number
 // from 1–100. If you would like, give a hint of “hotter” or “colder”
 // after the first guess.
+rand_num := (Random value( 99 ) + 1) floor;
+rand_num print;
+guess := 0;
+prev_guess := guess;
+diff := 0;
+prev_diff := 0;
+guesses := 0;
+stdin := File standardInput;
+loop := true;
+while( loop == true,
+    "Guess a number: " print;
+    guess := stdin readLine asNumber;
+    guesses = guesses + 1;
+    if( guess == rand_num,
+        ("you got it in " .. guesses .. " guesses!") print;
+        loop = false;
+    );
+    diff = ( rand_num - guess ) abs;
+    if( loop == true and guesses > 1,
+        if( diff < prev_diff ) then("getting hotter!" println) elseif(diff == prev_diff) then("now you're on the other side of it!" println) else( "getting colder..." println)
+    );
+    
+    prev_guess = guess;
+    prev_diff = diff;
+)
+    
+
 
