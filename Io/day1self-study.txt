@@ -3,15 +3,15 @@ When you’re looking for Io background, searching for answers is going
 to be a little tougher because Io has so many different meanings. I
 recommend Googling for Io language.
 Find:
-• Some Io example problems
+- Some Io example problems
     https://gist.github.com/jezen/7972975
     Fibonacci at n (see fib.io)
-• An Io community that will answer questions
+- An Io community that will answer questions
     #Io on freenode IRC
-• A style guide with Io idioms
+- A style guide with Io idioms
     http://en.wikibooks.org/wiki/Io_Programming/Io_Style_Guide
 Answer:
-• Evaluate 1 + 1 and then 1 + "one". Is Io strongly typed or weakly
+- Evaluate 1 + 1 and then 1 + "one". Is Io strongly typed or weakly
 typed? Support your answer with code.
     1 + 1 - 2 and 1 + "one" throws an exception because Number and Sequence
     are incompatible. However, you can append them to a Sequence using ..
@@ -22,15 +22,15 @@ typed? Support your answer with code.
     Exception:
     1 .. "one"
     ==> 1one
-• Is 0 true or false? What about the empty string? Is nil true or false?
+- Is 0 true or false? What about the empty string? Is nil true or false?
 Support your answer with code.
     0 is 0, true is true, false is false, the empty string is the empty
     string and nil is nil. None of them are equal to each other, they are
     all separate objects that can be cloned. They are also all singletons, as
     well as all string literals are singletons.
-• How can you tell what slots a prototype supports?
+- How can you tell what slots a prototype supports?
     {Object} slotNames
-• What is the difference between = (equals), := (colon equals), and ::=
+- What is the difference between = (equals), := (colon equals), and ::=
 (colon colon equals)? When would you use each one?
     All three are assignement operators
     equals changes the value of an existing object
@@ -46,9 +46,9 @@ Support your answer with code.
     its setter when designing a class.
 
 Do:
-• Run an Io program from a file.
+- Run an Io program from a file.
     io fib.io
-• Execute the code in a slot given its name.
+- Execute the code in a slot given its name.
     see fib.io
     also:
     Object slotNames
